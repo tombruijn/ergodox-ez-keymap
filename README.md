@@ -30,10 +30,10 @@ Modify the [keymap.c](keymap.c) file to change the keyboard layout and layers.
 1. Clone the [qmk_firmware] repository.
 2. Follow the installation instruction on the [qmk_firmware] repository.
 3. Clone this repository in the following directory inside the qmk_firmware repository:
-  - `keyboard/ergodox_ez/keymaps/tombruijn/`
+  - `keyboards/ergodox_ez/keymaps/tombruijn/`
 4. Start teensy and set teensy to automatic.
 5. Modify keymap, if necessary.
-6. Run the following command inside the `keyboard/ergodox_ez` directory.
+6. Run the following command inside the `keyboards/ergodox_ez` directory.
   - `make clean && make KEYMAP=tombruijn`
 7. Press the teensy button on the keyboard with a paperclip.
 8. The ErgoDox EZ will restart with the new keymap.
