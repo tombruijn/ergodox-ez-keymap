@@ -49,7 +49,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     KC_NO, KC_NO,
     KC_NO,
-    KC_NO, KC_LGUI, KC_ENT
+    KC_NO, KC_RGUI, KC_ENT
 ),
 /* Keymap 1: Symbol Layer
  *
