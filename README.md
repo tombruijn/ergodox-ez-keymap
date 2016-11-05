@@ -33,8 +33,8 @@ Modify the [keymap.c](keymap.c) file to change the keyboard layout and layers.
   - `keyboards/ergodox_ez/keymaps/tombruijn/`
 4. Start teensy and set teensy to automatic.
 5. Modify keymap, if necessary.
-6. Run the following command inside the `keyboards/ergodox_ez` directory.
-  - `make clean && make KEYMAP=tombruijn`
+6. Run the following command inside this keymap directory.
+  - `make`
 7. Press the teensy button on the keyboard with a paperclip.
 8. The ErgoDox EZ will restart with the new keymap.
 
