@@ -16,8 +16,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * | TAB    |   Q  |   W  |   E  |   R  |   T  |  L1  |           |  L3  |   Y  |   U  |   I  |   O  |   P  |   \|   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * | ESC    |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |; / L2|   '"   |
- * |--------+------+------+------+------+------| BSPC |           | Del  |------+------+------+------+------+--------|
- * | LShift |Z/Ctrl|   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |//Ctrl| RShift |
+ * |--------+------+------+------+------+------| BSPC |           |  Del |------+------+------+------+------+--------|
+ * | LShift |Z/Ctrl|   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RShift |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   | `~   |      | Alt  | ~L3  | CMD  |                                       | ~L1  | ~L3  | Alt  |      |      |
  *   `----------------------------------'                                       `----------------------------------'
@@ -25,7 +25,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                        | F15  | F16  |       | F18  |  F19   |
  *                                 ,------|------|------|       |------+--------+------.
  *                                 |      |      | F17  |       | F20  |        |      |
- *                                 | Space| ~Li  |------|       |------|  CMD   |Enter |
+ *                                 | Space| Ctrl |------|       |------|  CMD   |Enter |
  *                                 |      |      |      |       |      |        |      |
  *                                 `--------------------'       `----------------------'
  */
@@ -39,17 +39,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
                                                                  KC_F15,  KC_F16,
                                                                           KC_F17,
-                                                         KC_SPC, MO(SYMB),KC_NO,
+                                                         KC_SPC, KC_LCTRL,KC_LCTRL,
     // right hand
     KC_NO,       KC_6,   KC_7,     KC_8,     KC_9,    KC_0,              KC_BSPC,
     TG(MNGM),    KC_Y,   KC_U,     KC_I,     KC_O,    KC_P,              KC_BSLS,
                  KC_H,   KC_J,     KC_K,     KC_L,    LT(MDIA, KC_SCLN), KC_QUOT,
-    KC_DELETE,   KC_N,   KC_M,     KC_COMM,  KC_DOT,  CTL_T(KC_SLSH),    KC_RSFT,
+    KC_DELETE,   KC_N,   KC_M,     KC_COMM,  KC_DOT,  KC_SLSH,           KC_RSFT,
                          MO(SYMB), MO(MNGM), KC_LALT, KC_NO,             KC_NO,
 
     KC_F18, KC_F19,
     KC_F20,
-    KC_NO,  KC_RGUI, KC_ENT
+    KC_RCTRL, KC_RGUI, KC_ENT
 ),
 /* Keymap 1: Symbol Layer
  *
