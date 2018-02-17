@@ -3,10 +3,15 @@
 #include "action_layer.h"
 #include "version.h"
 
+extern rgblight_config_t rgblight_config;
+rgblight_config_t previous_rgblight_config;
+bool default_getting_updated;
+
 #define BASE 0 // default layer
 #define SYMB 1 // symbols
 #define MDIA 2 // media keys
 #define MNGM 3 // management keys
+#define RGBC 4 // RGB configuration
 
 enum custom_keycodes {
   PLACEHOLDER = SAFE_RANGE, // can always be here
@@ -51,9 +56,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // right hand
     KC_NO,       KC_6,   KC_7,     KC_8,     KC_9,    KC_0,              KC_BSPC,
     TG(MNGM),    KC_Y,   KC_U,     KC_I,     KC_O,    KC_P,              KC_BSLS,
-                 KC_H,   KC_J,     KC_K,     KC_L,    LT(MDIA, KC_SCLN), KC_QUOT,
+                 KC_H,   KC_J,     KC_K,     KC_L,    LT(MDIA, KC_SCLN), LT(MNGM, KC_QUOT),
     KC_DELETE,   KC_N,   KC_M,     KC_COMM,  KC_DOT,  KC_SLSH,           KC_RSFT,
-                         MO(SYMB), MO(MNGM), KC_LALT, KC_NO,             KC_NO,
+                         MO(SYMB), MO(MNGM), KC_LALT, KC_NO,             TG(RGBC),
 
     KC_F18, KC_F19,
     KC_F20,
@@ -169,7 +174,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS, KC_TRNS,
     KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS
-)};
+),
+// RGB configuration
+[RGBC] = KEYMAP(
+    // left hand
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, RGB_MODE_FORWARD, KC_TRNS,
+    KC_TRNS, RGB_SLD, RGB_HUD, RGB_SAD, RGB_VAD, RGB_MODE_REVERSE,
+    KC_TRNS, RGB_MODE_KNIGHT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+
+                                                               KC_TRNS, KC_TRNS,
+                                                                        KC_TRNS,
+                                                      KC_TRNS, KC_TRNS, KC_TRNS,
+    // right hand
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+             KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                         KC_TRNS,    KC_TRNS,       KC_TRNS,      KC_TRNS,       KC_TRNS,
+
+    KC_TRNS, KC_TRNS,
+    KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS
+),
+};
 
 const uint16_t PROGMEM fn_actions[] = {
     [1] = ACTION_LAYER_TAP_TOGGLE(SYMB), // FN1 - Momentary Layer 1 (Symbols)
@@ -222,9 +251,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
-#ifdef RGBLIGHT_COLOR_LAYER_0
-  rgblight_setrgb(RGBLIGHT_COLOR_LAYER_0);
-#endif
+  rgblight_init();
+  rgblight_enable();
+  rgblight_sethsv(202, 255, 255);
 };
 
 // Runs constantly in the background, in a loop.
@@ -240,39 +269,67 @@ uint32_t layer_state_set_user(uint32_t state) {
   ergodox_right_led_3_off();
 
   uint8_t layer = biton32(state);
+  #ifdef RGBLIGHT_ENABLE
+  if (layer != 0) {
+    // Store previous RGB settings, so we can restore them later
+    previous_rgblight_config.raw = eeconfig_read_rgblight();
+  }
+  #endif
+
   switch (layer) {
       case 0:
         #ifdef RGBLIGHT_ENABLE
-          rgblight_disable();
+        // Restore previous settings
+        if (!default_getting_updated) { // Only restore if the default hasn't been updated
+          if (previous_rgblight_config.enable) {
+            rgblight_enable();
+          } else {
+            rgblight_disable();
+          }
+          rgblight_mode(previous_rgblight_config.mode);
+          rgblight_sethsv(previous_rgblight_config.hue, previous_rgblight_config.sat, previous_rgblight_config.val);
+        }
         #endif
         break;
       case 1:
         ergodox_right_led_1_on();
         #ifdef RGBLIGHT_ENABLE
-          rgblight_init();
+          // Light up when switching to this layer
           rgblight_enable();
-          rgblight_setrgb(255, 0, 0);
+          rgblight_mode(1);
+          rgblight_sethsv(0, rgblight_config.sat, rgblight_config.val); // Red: #FF0000
         #endif
         break;
       case 2:
         ergodox_right_led_2_on();
         #ifdef RGBLIGHT_ENABLE
-          rgblight_init();
+          // Light up when switching to this layer
           rgblight_enable();
-          rgblight_setrgb(0, 255, 0);
+          rgblight_mode(1);
+          rgblight_sethsv(120, rgblight_config.sat, rgblight_config.val); // Green: #00FF00
         #endif
         break;
       case 3:
         ergodox_right_led_3_on();
         #ifdef RGBLIGHT_ENABLE
-          rgblight_init();
+          // Light up when switching to this layer
           rgblight_enable();
-          rgblight_setrgb(0, 0, 255);
+          rgblight_mode(1);
+          rgblight_sethsv(240, rgblight_config.sat, rgblight_config.val); // Blue: #0000FF
         #endif
+        break;
+      case 4:
+        ergodox_right_led_1_on();
+        ergodox_right_led_2_on();
+        ergodox_right_led_3_on();
+        default_getting_updated = true;
         break;
       default:
         break;
     }
+  if (layer != 4) {
+    default_getting_updated = false;
+  }
 
   return state;
 };
