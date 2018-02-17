@@ -12,6 +12,7 @@ int previous_layer;
 #define MDIA 2 // media keys
 #define MNGM 3 // management keys
 #define RGBC 4 // RGB configuration
+#define MOUS 5 // Mouse
 
 enum custom_keycodes {
   PLACEHOLDER = SAFE_RANGE, // can always be here
@@ -38,7 +39,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 ,------|------|------|       |------+--------+------.
  *                                 |      |      | F17  |       | F20  |        |      |
  *                                 | Space| Ctrl |------|       |------|  CMD   |Enter |
- *                                 |      |      |      |       |      |        |      |
+ *                                 |      |      |      |       | L5   |        |      |
  *                                 `--------------------'       `----------------------'
  */
 [BASE] = LAYOUT_ergodox(
@@ -61,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     KC_F18, KC_F19,
     KC_F20,
-    KC_RCTRL, KC_RGUI, KC_ENT
+    TG(MOUS), KC_RGUI, KC_ENT
 ),
 /* Keymap 1: Symbol Layer
  *
@@ -127,7 +128,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
-// MEDIA
 [MDIA] = KEYMAP(
     // left hand
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
@@ -150,7 +150,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS
 ),
-// MANAGEMENT
+// Keymap 3: Management
 // Base layout, but every key HYPER-ed. Used by Hammerspoon config.
 [MNGM] = KEYMAP(
     // left hand
@@ -174,7 +174,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS
 ),
-/* Keymap 3: RGB configuration
+/* Keymap 4: RGB configuration
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
@@ -195,13 +195,55 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
-// RGB configuration
 [RGBC] = KEYMAP(
     // left hand
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, RGB_MODE_FORWARD, KC_TRNS,
     KC_TRNS, RGB_SLD, RGB_HUD, RGB_SAD, RGB_VAD, RGB_MODE_REVERSE,
     KC_TRNS, RGB_MODE_KNIGHT, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+
+                                                               KC_TRNS, KC_TRNS,
+                                                                        KC_TRNS,
+                                                      KC_TRNS, KC_TRNS, KC_TRNS,
+    // right hand
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+             KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                         KC_TRNS,    KC_TRNS,       KC_TRNS,      KC_TRNS,       KC_TRNS,
+
+    KC_TRNS, KC_TRNS,
+    KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS
+),
+/* Keymap 5: Mouse
+ *
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |------|           |------|      |      |      |      |      |        |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   |      |      |      |      |      |                                       |      |      |      |      |      |
+ *   `----------------------------------'                                       `----------------------------------'
+ *                                        ,-------------.       ,-------------.
+ *                                        |      |      |       |      |      |
+ *                                 ,------|------|------|       |------+------+------.
+ *                                 |      |      |      |       |      |      |      |
+ *                                 |      |      |------|       |------|      |      |
+ *                                 |      |      |      |       |      |      |      |
+ *                                 `--------------------'       `--------------------'
+ */
+[MOUS] = KEYMAP(
+    // left hand
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_BTN1, KC_MS_UP, KC_BTN2, KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_MS_LEFT, KC_MS_DOWN, KC_MS_RIGHT, KC_TRNS,
+    KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
 
                                                                KC_TRNS, KC_TRNS,
@@ -335,6 +377,11 @@ uint32_t layer_state_set_user(uint32_t state) {
         ergodox_right_led_1_on();
         ergodox_right_led_2_on();
         ergodox_right_led_3_on();
+        break;
+      case MOUS:
+        ergodox_right_led_2_on();
+        ergodox_right_led_3_on();
+        temp_color(290); // Purple
         break;
       default:
         break;
