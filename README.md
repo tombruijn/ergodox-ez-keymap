@@ -34,10 +34,11 @@ Modify the [keymap.c](keymap.c) file to change the keyboard layout and layers.
   - `keyboards/ergodox_ez/keymaps/tombruijn/`
 4. Start teensy and set teensy to automatic.
 5. Modify keymap, if necessary.
-6. Run the following command inside this keymap directory.
+6. Run the following command inside the qmk_firmware root directory.
   - `docker run -e keymap=tombruijn -e keyboard=ergodox_ez --rm -v $("pwd"):/qmk:rw edasque/qmk_firmware`
-7. Press the teensy button on the keyboard with a paperclip.
-8. The ErgoDox EZ will restart with the new keymap.
+7. Point teensy to use the generated hex file. (Only have to do this once per teensy start.)
+8. Press the teensy button on the keyboard with a paperclip.
+9. The ErgoDox EZ will restart with the new keymap.
 
 Repeat steps 5-8 until happy :)
 
