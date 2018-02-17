@@ -2,7 +2,8 @@
 
 [Tom de Bruijn]'s [ErgoDox EZ] keymap.
 
-This is a keymap used by the [qmk_firmware].
+This is a keymap used by the [qmk_firmware] using revision
+`d1ea398fb9c4848b74fc3eca40d6078bb529bf0a`.
 
 The keymap contains 4 layers. There are ASCII "images" of each layer in the
 [keymap.c](keymap.c) file.
@@ -11,7 +12,7 @@ The keymap contains 4 layers. There are ASCII "images" of each layer in the
   - ErgoDox QWERTY keyboard
   - Modifier keys are different
 - 1. Symbol layer
-  - [Norman layout] symbol layer for ErgoDox
+  - [Norman-style layout] symbol layer for ErgoDox
 - 2. Media layer
   - Media controls
   - Arrow keys
@@ -30,11 +31,11 @@ Modify the [keymap.c](keymap.c) file to change the keyboard layout and layers.
 1. Clone the [qmk_firmware] repository.
 2. Follow the installation instruction on the [qmk_firmware] repository.
 3. Clone this repository in the following directory inside the qmk_firmware repository:
-  - `keyboards/ergodox/keymaps/tombruijn/`
+  - `keyboards/ergodox_ez/keymaps/tombruijn/`
 4. Start teensy and set teensy to automatic.
 5. Modify keymap, if necessary.
 6. Run the following command inside this keymap directory.
-  - `make`
+  - `docker run -e keymap=tombruijn -e keyboard=ergodox_ez --rm -v $("pwd"):/qmk:rw edasque/qmk_firmware`
 7. Press the teensy button on the keyboard with a paperclip.
 8. The ErgoDox EZ will restart with the new keymap.
 
