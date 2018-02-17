@@ -199,6 +199,35 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 };
 
+void temp_color(uint16_t hue) {
+    #ifdef RGBLIGHT_ENABLE
+    if (previous_layer == BASE) {
+      // Store previous RGB settings, so we can restore them later
+      // Only store when switching to layer that isn't base and when the previous
+      // layer is base. To prevent accidentally storing layer 1 as the default
+      // when switching from layer 1 to 2.
+      previous_rgblight_config.raw = eeconfig_read_rgblight();
+    }
+
+    // Set color
+    rgblight_enable();
+    rgblight_mode(1);
+    rgblight_sethsv(hue, rgblight_config.sat, rgblight_config.val);
+    #endif
+};
+
+void reset_color(void) {
+  #ifdef RGBLIGHT_ENABLE
+  if (previous_rgblight_config.enable) {
+    rgblight_enable();
+  } else {
+    rgblight_disable();
+  }
+  rgblight_mode(previous_rgblight_config.mode);
+  rgblight_sethsv(previous_rgblight_config.hue, previous_rgblight_config.sat, previous_rgblight_config.val);
+  #endif
+};
+
 const uint16_t PROGMEM fn_actions[] = {
     [1] = ACTION_LAYER_TAP_TOGGLE(SYMB), // FN1 - Momentary Layer 1 (Symbols)
     [3] = ACTION_LAYER_TAP_TOGGLE(MNGM)  // FN3 - Momentary Layer 3 (Management)
@@ -252,7 +281,6 @@ void matrix_init_user(void) {
 
 // Runs constantly in the background, in a loop.
 void matrix_scan_user(void) {
-
 };
 
 // Runs whenever there is a layer state change.
@@ -263,57 +291,24 @@ uint32_t layer_state_set_user(uint32_t state) {
   ergodox_right_led_3_off();
 
   uint8_t layer = biton32(state);
-  #ifdef RGBLIGHT_ENABLE
-  if (layer != BASE && previous_layer == BASE) {
-    // Store previous RGB settings, so we can restore them later
-    // Only store when switching to layer that isn't base and when the previous
-    // layer is base. To prevent accidentally storing layer 1 as the default
-    // when switching from layer 1 to 2.
-    previous_rgblight_config.raw = eeconfig_read_rgblight();
-  }
-  #endif
-
   switch (layer) {
       case BASE:
-        #ifdef RGBLIGHT_ENABLE
         // Restore previous settings
         if (previous_layer != RGBC) { // Only restore if the default hasn't been updated
-          if (previous_rgblight_config.enable) {
-            rgblight_enable();
-          } else {
-            rgblight_disable();
-          }
-          rgblight_mode(previous_rgblight_config.mode);
-          rgblight_sethsv(previous_rgblight_config.hue, previous_rgblight_config.sat, previous_rgblight_config.val);
+          reset_color();
         }
-        #endif
         break;
       case SYMB:
         ergodox_right_led_1_on();
-        #ifdef RGBLIGHT_ENABLE
-          // Light up when switching to this layer
-          rgblight_enable();
-          rgblight_mode(1);
-          rgblight_sethsv(0, rgblight_config.sat, rgblight_config.val); // Red: #FF0000
-        #endif
+          temp_color(0); // Red: #FF0000 */
         break;
       case MDIA:
         ergodox_right_led_2_on();
-        #ifdef RGBLIGHT_ENABLE
-          // Light up when switching to this layer
-          rgblight_enable();
-          rgblight_mode(1);
-          rgblight_sethsv(120, rgblight_config.sat, rgblight_config.val); // Green: #00FF00
-        #endif
+        temp_color(120); // Green: #00FF00 */
         break;
       case MNGM:
         ergodox_right_led_3_on();
-        #ifdef RGBLIGHT_ENABLE
-          // Light up when switching to this layer
-          rgblight_enable();
-          rgblight_mode(1);
-          rgblight_sethsv(240, rgblight_config.sat, rgblight_config.val); // Blue: #0000FF
-        #endif
+        temp_color(240); // Blue: #0000FF
         break;
       case RGBC:
         ergodox_right_led_1_on();
