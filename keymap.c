@@ -252,9 +252,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
   previous_layer = BASE;
+  #ifdef RGBLIGHT_ENABLE
   rgblight_init();
-  rgblight_enable();
-  rgblight_sethsv(202, 255, 255);
+  #endif
 };
 
 // Runs constantly in the background, in a loop.
