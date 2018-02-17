@@ -5,7 +5,7 @@
 
 extern rgblight_config_t rgblight_config;
 rgblight_config_t previous_rgblight_config;
-bool default_getting_updated;
+int previous_layer;
 
 #define BASE 0 // default layer
 #define SYMB 1 // symbols
@@ -251,6 +251,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 // Runs just one time when the keyboard initializes.
 void matrix_init_user(void) {
+  previous_layer = BASE;
   rgblight_init();
   rgblight_enable();
   rgblight_sethsv(202, 255, 255);
@@ -270,17 +271,20 @@ uint32_t layer_state_set_user(uint32_t state) {
 
   uint8_t layer = biton32(state);
   #ifdef RGBLIGHT_ENABLE
-  if (layer != 0) {
+  if (layer != BASE && previous_layer == BASE) {
     // Store previous RGB settings, so we can restore them later
+    // Only store when switching to layer that isn't base and when the previous
+    // layer is base. To prevent accidentally storing layer 1 as the default
+    // when switching from layer 1 to 2.
     previous_rgblight_config.raw = eeconfig_read_rgblight();
   }
   #endif
 
   switch (layer) {
-      case 0:
+      case BASE:
         #ifdef RGBLIGHT_ENABLE
         // Restore previous settings
-        if (!default_getting_updated) { // Only restore if the default hasn't been updated
+        if (previous_layer != RGBC) { // Only restore if the default hasn't been updated
           if (previous_rgblight_config.enable) {
             rgblight_enable();
           } else {
@@ -291,7 +295,7 @@ uint32_t layer_state_set_user(uint32_t state) {
         }
         #endif
         break;
-      case 1:
+      case SYMB:
         ergodox_right_led_1_on();
         #ifdef RGBLIGHT_ENABLE
           // Light up when switching to this layer
@@ -300,7 +304,7 @@ uint32_t layer_state_set_user(uint32_t state) {
           rgblight_sethsv(0, rgblight_config.sat, rgblight_config.val); // Red: #FF0000
         #endif
         break;
-      case 2:
+      case MDIA:
         ergodox_right_led_2_on();
         #ifdef RGBLIGHT_ENABLE
           // Light up when switching to this layer
@@ -309,7 +313,7 @@ uint32_t layer_state_set_user(uint32_t state) {
           rgblight_sethsv(120, rgblight_config.sat, rgblight_config.val); // Green: #00FF00
         #endif
         break;
-      case 3:
+      case MNGM:
         ergodox_right_led_3_on();
         #ifdef RGBLIGHT_ENABLE
           // Light up when switching to this layer
@@ -318,18 +322,15 @@ uint32_t layer_state_set_user(uint32_t state) {
           rgblight_sethsv(240, rgblight_config.sat, rgblight_config.val); // Blue: #0000FF
         #endif
         break;
-      case 4:
+      case RGBC:
         ergodox_right_led_1_on();
         ergodox_right_led_2_on();
         ergodox_right_led_3_on();
-        default_getting_updated = true;
         break;
       default:
         break;
     }
-  if (layer != 4) {
-    default_getting_updated = false;
-  }
+  previous_layer = layer;
 
   return state;
 };
