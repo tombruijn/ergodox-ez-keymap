@@ -5,8 +5,10 @@
 This is a keymap used by the [qmk_firmware] using revision
 `d1ea398fb9c4848b74fc3eca40d6078bb529bf0a`.
 
-The keymap contains 4 layers. There are ASCII "images" of each layer in the
-[keymap.c](keymap.c) file.
+This works on the ErgoDox EZ Shine and an ErgoDox EZ from 2016.
+
+The keymap contains multiple layers. There are ASCII "images" of each layer in
+the [keymap.c](keymap.c) file.
 
 - 0. Base layer.
   - ErgoDox QWERTY keyboard
@@ -16,9 +18,12 @@ The keymap contains 4 layers. There are ASCII "images" of each layer in the
 - 2. Media layer
   - Media controls
   - Arrow keys
-- 3. Management layer
+- 3. App and window management layer
   - Same as layer 0, but every key is their HYPER version. Used by my
     [Hammerspoon config].
+- 4. RGB light configuration layer
+  - Only works on the ErgoDox EZ Shine
+- 5. Mouse controls layer
 
 ## Usage
 
@@ -40,7 +45,7 @@ Modify the [keymap.c](keymap.c) file to change the keyboard layout and layers.
 8. Press the teensy button on the keyboard with a paperclip.
 9. The ErgoDox EZ will restart with the new keymap.
 
-Repeat steps 5-8 until happy :)
+Repeat steps 5-9 until happy :)
 
 [Tom de Bruijn]: https://github.com/tombruijn
 [Hammerspoon config]: https://github.com/tombruijn/dotfiles/tree/master/hammerspoon
