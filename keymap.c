@@ -7,6 +7,8 @@ extern rgblight_config_t rgblight_config;
 rgblight_config_t previous_rgblight_config;
 int previous_layer;
 
+#define QMK_KEYS_PER_SCAN 4
+
 #define BASE 0 // default layer
 #define SYMB 1 // symbols
 #define MDIA 2 // media keys
@@ -128,7 +130,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
-[MDIA] = KEYMAP(
+[MDIA] = LAYOUT_ergodox(
     // left hand
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_TRNS, KC_UP,   KC_TRNS, KC_TRNS, KC_TRNS,
@@ -152,7 +154,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 // Keymap 3: Management
 // Base layout, but every key HYPER-ed. Used by Hammerspoon config.
-[MNGM] = KEYMAP(
+[MNGM] = LAYOUT_ergodox(
     // left hand
     HYPR(KC_EQL), HYPR(KC_1), HYPR(KC_2), HYPR(KC_3), HYPR(KC_4), HYPR(KC_5), KC_TRNS,
     KC_TRNS,      HYPR(KC_Q), HYPR(KC_W), HYPR(KC_E), HYPR(KC_R), HYPR(KC_T), HYPR(KC_GRV),
@@ -195,7 +197,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
-[RGBC] = KEYMAP(
+[RGBC] = LAYOUT_ergodox(
     // left hand
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, RGB_MODE_FORWARD, KC_TRNS,
@@ -238,7 +240,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |      |      |       |      |      |      |
  *                                 `--------------------'       `--------------------'
  */
-[MOUS] = KEYMAP(
+[MOUS] = LAYOUT_ergodox(
     // left hand
     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
     KC_TRNS, KC_TRNS, KC_BTN1, KC_MS_UP, KC_BTN2, KC_TRNS, KC_TRNS,
