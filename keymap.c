@@ -153,11 +153,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRNS, KC_TRNS, KC_TRNS
 ),
 // Keymap 3: Management
-// Base layout, but every key HYPER-ed. Used by Hammerspoon config.
+// Base layout, but almost every key HYPER-ed or MEH-ed. Used by Hammerspoon config.
 [MNGM] = LAYOUT_ergodox(
     // left hand
     HYPR(KC_EQL), HYPR(KC_1), HYPR(KC_2), HYPR(KC_3), HYPR(KC_4), HYPR(KC_5), KC_TRNS,
-    KC_TRNS,      HYPR(KC_Q), HYPR(KC_W), HYPR(KC_E), HYPR(KC_R), HYPR(KC_T), HYPR(KC_GRV),
+    KC_TRNS,      HYPR(KC_Q), MEH(KC_W),  HYPR(KC_E), HYPR(KC_R), HYPR(KC_T), HYPR(KC_GRV),
     KC_TRNS,      HYPR(KC_A), HYPR(KC_S), HYPR(KC_D), HYPR(KC_F), HYPR(KC_G),
     KC_TRNS,      HYPR(KC_Z), HYPR(KC_X), HYPR(KC_C), HYPR(KC_V), HYPR(KC_B), KC_TRNS,
     KC_TRNS,      KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
