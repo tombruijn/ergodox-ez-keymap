@@ -7,8 +7,6 @@ extern rgblight_config_t rgblight_config;
 rgblight_config_t previous_rgblight_config;
 int previous_layer;
 
-#define QMK_KEYS_PER_SCAN 4
-
 #define BASE 0 // default layer
 #define SYMB 1 // symbols
 #define MDIA 2 // media keys
