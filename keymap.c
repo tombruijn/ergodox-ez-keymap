@@ -262,7 +262,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 };
 
-void temp_color(uint16_t hue) {
+void temp_color(uint8_t red, uint8_t green, uint8_t blue) {
     #ifdef RGBLIGHT_ENABLE
     if (previous_layer == BASE) {
       // Store previous RGB settings, so we can restore them later
@@ -275,7 +275,7 @@ void temp_color(uint16_t hue) {
     // Set color
     rgblight_enable();
     rgblight_mode(1);
-    rgblight_sethsv(hue, rgblight_config.sat, rgblight_config.val);
+    rgblight_setrgb(red, green, blue);
     #endif
 };
 
@@ -363,15 +363,15 @@ uint32_t layer_state_set_user(uint32_t state) {
         break;
       case SYMB:
         ergodox_right_led_1_on();
-          temp_color(0); // Red: #FF0000 */
+          temp_color(RGB_RED);
         break;
       case MDIA:
         ergodox_right_led_2_on();
-        temp_color(120); // Green: #00FF00 */
+        temp_color(RGB_GREEN);
         break;
       case MNGM:
         ergodox_right_led_3_on();
-        temp_color(240); // Blue: #0000FF
+        temp_color(RGB_BLUE);
         break;
       case RGBC:
         ergodox_right_led_1_on();
@@ -381,7 +381,7 @@ uint32_t layer_state_set_user(uint32_t state) {
       case MOUS:
         ergodox_right_led_2_on();
         ergodox_right_led_3_on();
-        temp_color(290); // Purple
+        temp_color(RGB_PURPLE);
         break;
       default:
         break;
