@@ -3,7 +3,7 @@
 [Tom de Bruijn]'s [ErgoDox EZ] keymap.
 
 This is a keymap used by the [qmk_firmware] using revision
-`2410f023598af65a551b42f569a2703a5621bdca`.
+`d8253b83e81086514a72fe0dfde7e75c047cccc2`.
 
 This works on the ErgoDox EZ Shine and an ErgoDox EZ from 2016.
 
